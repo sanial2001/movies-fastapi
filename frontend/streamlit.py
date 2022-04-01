@@ -1,23 +1,30 @@
-import streamlit
+import streamlit as st
 import requests
 import json
 
 
 def run():
-    streamlit.title("Movie prediction list")
-    if streamlit.button("Netflix top10 weekly"):
+    st.title("Movie Maniac")
+
+    choice = st.sidebar.selectbox("Menu", ["Netflix weekly top10", "Predict movies to watch"])
+
+    if choice == "Netflix weekly top10":
+        st.subheader("Netflix weekly top10")
         resp = requests.get("http://127.0.0.1:8000/get_movies")
         top10 = resp.text
-        streamlit.success(top10)
+        st.success(top10)
 
-    movie = streamlit.text_input("Enter the movie you have watched")
-    data = {
-        "movie": movie
-    }
-    if streamlit.button("Predict"):
-        resp = requests.post("http://127.0.0.1:8000/predict_movies", json=data)
-        prediction = resp.text
-        streamlit.success(f"Movies recommended are : {prediction}")
+    if choice == "Predict movies to watch":
+        st.subheader("Predict movies to watch")
+
+        movie = st.text_input("Enter the movie you have watched")
+        data = {
+            "movie": movie
+        }
+        if st.button("Predict"):
+            resp = requests.post("http://127.0.0.1:8000/predict_movies", json=data)
+            prediction = resp.text
+            st.success(f"Movies recommended are : {prediction}")
 
 
 if __name__ == "__main__":
