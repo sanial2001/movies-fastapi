@@ -10,11 +10,5 @@ def new_release():
     }
 
     response = requests.request("GET", url, headers=headers)
-
-    resp = response.text
-    resp = resp.split('"')
-    ans = []
-    for i, val in enumerate(resp):
-        if val == "hoursviewed":
-            ans.append(resp[i-2])
-    return ans
+    # print(response.text)
+    return response.text

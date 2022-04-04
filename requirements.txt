@@ -25,6 +25,7 @@ executing==0.8.3
 fastapi==0.74.1
 gitdb==4.0.9
 GitPython==3.1.27
+googlemaps==4.6.0
 h11==0.13.0
 httptools==0.2.0
 idna==3.3

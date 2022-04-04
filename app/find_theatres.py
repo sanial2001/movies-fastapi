@@ -20,7 +20,4 @@ def find_nearby_theatres(addr):
     )
 
     resp = response.get('results')
-    ans = []
-    for val in resp:
-        ans.append(val['name'])
-    return ans
+    return resp
