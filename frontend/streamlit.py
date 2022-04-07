@@ -15,7 +15,7 @@ def filedownload(df):
 def run():
     st.title("Movie Maniac")
 
-    menu = ["Netflix weekly top10", "Predict movies to watch", "Find nearby theatres", "About"]
+    menu = ["Netflix weekly top10", "Predict movies to watch", "Find Movies", "Find nearby theatres", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == "Netflix weekly top10":
@@ -41,6 +41,18 @@ def run():
             df = pd.DataFrame(json_data.values(), columns=['movies'])
             st.dataframe(df)
             st.markdown(filedownload(df), unsafe_allow_html=True)
+
+    if choice == "Find Movies":
+        st.subheader("Finding best Movies by genres")
+        resp = requests.get("http://127.0.0.1:8000/get_movies_genres")
+        df = pd.read_csv("movie_ratings.csv")
+        json_data = json.loads(resp.text)
+        options = st.multiselect("Select genres to watch", json_data)
+        df_filtered = df[(df['genres'].isin(options))]
+        df_filtered.drop(['movieId', 'Unnamed: 0'], axis=1, inplace=True)
+        df_filtered.sort_values(by=['avg_ratings'], ascending=False, inplace=True)
+        st.dataframe(df_filtered)
+        st.markdown(filedownload(df_filtered), unsafe_allow_html=True)
 
     if choice == "Find nearby theatres":
         st.subheader("Find nearby theatres")

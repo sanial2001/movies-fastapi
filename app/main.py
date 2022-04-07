@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from . import schemas, get_movies, new_releases, find_theatres
+from . import schemas, get_movies, new_releases, find_theatres, genres
 
 app = FastAPI()
 
@@ -16,6 +16,11 @@ def predict_movies(post: schemas.Post_Movies):
     predicted_movies = get_movies.get_movie_recommendation(post['movie'])
     # print(predicted_movies)
     return predicted_movies['Title']
+
+
+@app.get("/get_movies_genres")
+def get_movies_by_genres():
+    return genres.movies_genres
 
 
 @app.get("/get_movies")
