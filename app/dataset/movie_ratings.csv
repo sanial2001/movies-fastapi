@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 sno,movieId,title,genres,avg_ratings
+=======
+,movieId,title,genres,avg_ratings
+>>>>>>> origin/main
 0,1,Toy Story (1995),Adventure|Animation|Children|Comedy|Fantasy,3.9209302325581397
 1,2,Jumanji (1995),Adventure|Children|Fantasy,3.4318181818181817
 2,3,Grumpier Old Men (1995),Comedy|Romance,3.2596153846153846
