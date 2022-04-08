@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 
 
-class Post_Movies(BaseModel):
+class PostMovies(BaseModel):
     movie: str
 
 
-class Post_Theatres(BaseModel):
+class PostTheatres(BaseModel):
     address: str

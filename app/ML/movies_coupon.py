@@ -22,6 +22,6 @@ final_dataset.reset_index(inplace=True)
 knn = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=20, n_jobs=-1)
 knn.fit(csr_data)
 
-pickle_out = open("knn.pkl", "wb")
+pickle_out = open("../knn.pkl", "wb")
 pickle.dump(knn, pickle_out)
 pickle_out.close()

@@ -1,4 +1,4 @@
-from . import movies_coupon
+from .ML import movies_coupon
 import pickle
 import pandas as pd
 
@@ -23,4 +23,4 @@ def get_movie_recommendation(movie_name):
         df = pd.DataFrame(recommend_frame, index=range(1, n_movies_to_reccomend + 1))
         return df
     else:
-        return "No movies found. Please check your input"
+        return "no movies found"

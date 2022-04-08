@@ -5,6 +5,7 @@ import pandas as pd
 import base64
 
 
+@st.cache
 def filedownload(df):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
@@ -22,6 +23,7 @@ def run():
         st.subheader("Netflix weekly top10")
         resp = requests.get("http://127.0.0.1:8000/get_movies")
         json_data = json.loads(resp.text)
+        # print(type(json_data))
         json_data = eval(json_data)
         df = pd.DataFrame(json_data)
         st.dataframe(df)
@@ -30,9 +32,16 @@ def run():
     if choice == "Predict movies to watch":
         st.subheader("Predict movies to watch")
 
-        movie = st.text_input("Enter the movie you have watched")
+        df_movies = pd.read_csv("../app/dataset/movies.csv")
+        movies_list = list(df_movies['title'])
+        movie_selected = st.selectbox("Enter the movie you have watched", movies_list)
+        movie_selected = movie_selected.split(" ")
+        if movie_selected[-1][0] == "(":
+            movie_selected.pop()
+        movie_selected = ' '.join(movie_selected)
+        print(movie_selected)
         data = {
-            "movie": movie
+            "movie": movie_selected
         }
         if st.button("Predict"):
             resp = requests.post("http://127.0.0.1:8000/predict_movies", json=data)
@@ -45,14 +54,14 @@ def run():
     if choice == "Find Movies":
         st.subheader("Finding best Movies by genres")
         resp = requests.get("http://127.0.0.1:8000/get_movies_genres")
-        df = pd.read_csv("movie_ratings.csv")
+        df = pd.read_csv("../app/dataset/movie_ratings.csv")
         json_data = json.loads(resp.text)
         options = st.multiselect("Select genres to watch", json_data)
         df_filtered = df[(df['genres'].isin(options))]
-        df_filtered.drop(['movieId', 'Unnamed: 0'], axis=1, inplace=True)
-        df_filtered.sort_values(by=['avg_ratings'], ascending=False, inplace=True)
-        st.dataframe(df_filtered)
-        st.markdown(filedownload(df_filtered), unsafe_allow_html=True)
+        df2 = df_filtered.drop(['movieId', 'Unnamed: 0'], axis=1)
+        df2.sort_values('avg_ratings', ascending=False, inplace=True)
+        st.dataframe(df2)
+        st.markdown(filedownload(df2), unsafe_allow_html=True)
 
     if choice == "Find nearby theatres":
         st.subheader("Find nearby theatres")
