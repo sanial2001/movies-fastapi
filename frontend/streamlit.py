@@ -16,8 +16,44 @@ def filedownload(df):
 def run():
     st.title("Movie Maniac")
 
-    menu = ["Netflix weekly top10", "Predict movies to watch", "Find Movies", "Find nearby theatres", "About"]
+    menu = ["Home", "Netflix weekly top10", "Predict movies to watch", "Find Movies", "Find nearby theatres", "About"]
     choice = st.sidebar.selectbox("Menu", menu)
+
+    if choice == "Home":
+        st.subheader("Movie-Series Feeds Section")
+        option = st.radio("Select to see the new releases", ["Movies", "Series"])
+        if option == "Movies":
+            resp = requests.get("http://127.0.0.1:8000/movies_feed")
+            json_data = json.loads(resp.text)
+            col1, col2 = st.columns((1,1))
+            flag = 1
+            for key in json_data:
+                if flag == 1:
+                    col1.subheader(key)
+                    col1.write(f'* **Release Date:** {json_data[key]["release_date"]}')
+                    col1.write(f'* **About:** {json_data[key]["about"]}')
+                    flag = 2
+                else:
+                    col2.subheader(key)
+                    col2.write(f'* **Release Date:** {json_data[key]["release_date"]}')
+                    col2.write(f'* **About:** {json_data[key]["about"]}')
+                    flag = 1
+        else:
+            resp = requests.get("http://127.0.0.1:8000/series_feed")
+            json_data = json.loads(resp.text)
+            col1, col2 = st.columns((1, 1))
+            flag = 1
+            for key in json_data:
+                if flag == 1:
+                    col1.subheader(key)
+                    col1.write(f'* **Release Date:** {json_data[key]["release_date"]}')
+                    col1.write(f'* **About:** {json_data[key]["about"]}')
+                    flag = 2
+                else:
+                    col2.subheader(key)
+                    col2.write(f'* **Release Date:** {json_data[key]["release_date"]}')
+                    col2.write(f'* **About:** {json_data[key]["about"]}')
+                    flag = 1
 
     if choice == "Netflix weekly top10":
         st.subheader("Netflix weekly top10")

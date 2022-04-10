@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, Response, status
-from . import schemas, get_movies, new_releases, find_theatres, genres
+from . import schemas, get_movies, new_releases, find_theatres, genres, movies_feeds, series_feeds
 
 app = FastAPI()
 
@@ -32,4 +32,16 @@ def new_movies():
 def nearby_theatres(post: schemas.PostTheatres):
     post = post.dict()
     resp = find_theatres.find_nearby_theatres(post['address'])
+    return resp
+
+
+@app.get("/movies_feed")
+def movies_feeds_section():
+    resp = movies_feeds.new_movies_feeds()
+    return resp
+
+
+@app.get("/series_feed")
+def series_feeds_section():
+    resp = series_feeds.new_series_feeds()
     return resp
