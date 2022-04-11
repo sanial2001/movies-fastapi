@@ -9,13 +9,14 @@ knn = pickle.load(pickle_in)
 def get_movie_recommendation(movie_name):
     n_movies_to_reccomend = 10
     movie_list = movies_coupon.movies[movies_coupon.movies['title'].str.contains(movie_name)]
-    #print(movie_list)
+    # print(movie_list)
     if len(movie_list):
         movie_idx = movie_list.iloc[0]['movieId']
-        #print(movies_coupon.final_dataset[movies_coupon.final_dataset['movieId'] == movie_idx].size)
+        # print(movies_coupon.final_dataset[movies_coupon.final_dataset['movieId'] == movie_idx].size)
         try:
             movie_idx = movies_coupon.final_dataset[movies_coupon.final_dataset['movieId'] == movie_idx].index[0]
-            distances, indices = knn.kneighbors(movies_coupon.csr_data[movie_idx], n_neighbors=n_movies_to_reccomend + 1)
+            distances, indices = knn.kneighbors(movies_coupon.csr_data[movie_idx],
+                                                n_neighbors=n_movies_to_reccomend + 1)
             rec_movie_indices = sorted(list(zip(indices.squeeze().tolist(), distances.squeeze().tolist())),
                                        key=lambda x: x[1])[:0:-1]
             recommend_frame = []

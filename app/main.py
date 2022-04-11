@@ -9,15 +9,13 @@ def home():
     return {"Home Page"}
 
 
-@app.post("/predict_movies")
+@app.post("/predict_movies",)
 def predict_movies(post: schemas.PostMovies):
     post = post.dict()
-    # print(post)
     predicted_movies = get_movies.get_movie_recommendation(post['movie'])
     if predicted_movies.empty:
-        return None
-    else:
-        return predicted_movies['Title']
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Movies not found")
+    return predicted_movies['Title']
 
 
 @app.get("/get_movies_genres")

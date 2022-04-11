@@ -75,7 +75,6 @@ def run():
         if movie_selected[-1][0] == "(":
             movie_selected.pop()
         movie_selected = ' '.join(movie_selected)
-        print(movie_selected)
         data = {
             "movie": movie_selected
         }
