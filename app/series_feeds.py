@@ -7,14 +7,16 @@ def new_series_feeds():
     html_text = requests.get("https://moviesdaily.com/discovertvshows").text
     soup = BeautifulSoup(html_text, 'lxml')
     soup.prettify()
-    new_movies = soup.find_all('div', class_='col-md-8 col-sm-8')
-    for new_movie in new_movies:
-        movie_name_div = new_movie.find('div', class_='col-md-11 col-sm-11 col-xs-11')
-        movie_name = movie_name_div.h4.a.text
-        release_date = movie_name_div.h4.span.text
-        about = new_movie.p.text.replace('\n', '')
-        d[movie_name] = {}
-        d[movie_name]['release_date'] = release_date
-        d[movie_name]['about'] = about
+    new_series = soup.find_all('div', class_='col-md-8 col-sm-8')
+    for new_show in new_series:
+        show_name_div = new_show.find('div', class_='col-md-11 col-sm-11 col-xs-11')
+        show_name = show_name_div.h4.a.text
+        show_details = show_name_div.h4.a['href']
+        release_date = show_name_div.h4.span.text
+        about = new_show.p.text.replace('\n', '')
+        d[show_name] = {}
+        d[show_name]['details'] = show_details
+        d[show_name]['release_date'] = release_date
+        d[show_name]['about'] = about
         # print(movie_name, release_date, about)
     return d

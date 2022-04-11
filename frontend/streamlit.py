@@ -82,10 +82,12 @@ def run():
         if st.button("Predict"):
             resp = requests.post("http://127.0.0.1:8000/predict_movies", json=data)
             json_data = json.loads(resp.text)
-            # print(json_data)
-            df = pd.DataFrame(json_data.values(), columns=['movies'])
-            st.dataframe(df)
-            st.markdown(filedownload(df), unsafe_allow_html=True)
+            if not json_data:
+                st.write("Oops!!! No movies found")
+            else:
+                df = pd.DataFrame(json_data.values(), columns=['movies'])
+                st.dataframe(df)
+                st.markdown(filedownload(df), unsafe_allow_html=True)
 
     if choice == "Find Movies":
         st.subheader("Finding best Movies by genres")
@@ -122,12 +124,14 @@ def run():
         * **Front-end:** streamlit
         * **Back-end:** FastAPI
         * **ML:** collaborative based filtering to predict movies using sklearn, scipy, numpy, pandas 
+        * **Web-scraping:** Beautifulsoup4
         """)
 
         data_source = st.expander("Data Source")
         data_source.markdown("""
         * **Netflix weekly top 10:** [Rapid API netflix weekly top 10](https://rapidapi.com/mhtdy/api/netflix-weekly-top-10/)
         * **Find nearby theatres:** [Google maps API](https://developers.google.com/maps/documentation/places/web-service/search-nearby)
+        * **Movies and series feeds:** [Movies-Series feeds](https://moviesdaily.com/)
         """)
 
         about_me = st.expander("Source code and connectivity")

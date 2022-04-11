@@ -14,7 +14,10 @@ def predict_movies(post: schemas.PostMovies):
     post = post.dict()
     # print(post)
     predicted_movies = get_movies.get_movie_recommendation(post['movie'])
-    return predicted_movies['Title']
+    if predicted_movies.empty:
+        return None
+    else:
+        return predicted_movies['Title']
 
 
 @app.get("/get_movies_genres")
