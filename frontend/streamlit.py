@@ -25,7 +25,7 @@ def run():
         if option == "Movies":
             resp = requests.get("http://127.0.0.1:8000/movies_feed")
             json_data = json.loads(resp.text)
-            col1, col2 = st.columns((1,1))
+            col1, col2 = st.columns((1, 1))
             flag = 1
             for key in json_data:
                 if flag == 1:
@@ -128,9 +128,9 @@ def run():
 
         data_source = st.expander("Data Source")
         data_source.markdown("""
+        * **Movies and series feeds:** [Movies-Series feeds](https://moviesdaily.com/)
         * **Netflix weekly top 10:** [Rapid API netflix weekly top 10](https://rapidapi.com/mhtdy/api/netflix-weekly-top-10/)
         * **Find nearby theatres:** [Google maps API](https://developers.google.com/maps/documentation/places/web-service/search-nearby)
-        * **Movies and series feeds:** [Movies-Series feeds](https://moviesdaily.com/)
         """)
 
         about_me = st.expander("Source code and connectivity")
